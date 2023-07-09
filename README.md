@@ -10,3 +10,7 @@ MVZ is a movie listing app powered with TMDB
 - [Axios](https://axios-http.com/)
 - [Fontsource](https://fontsource.org/)
 - [Vite](https://vitejs.dev/)
+
+## License
+
+Distributed under the [MIT License](https://opensource.org/license/mit/). See [`LICENSE`](https://github.com/wajid-nv/mvz/blob/main/LICENSE) for more information.
