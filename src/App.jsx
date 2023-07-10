@@ -19,17 +19,16 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   // State for extracted movies
   const [extractedMovies, setExtractedMovies] = useState([]);
+  // State for release year filter
+  const [filterOptions, setFilterOptions] = useState([0, 0]);
+  // State for filtered movies
+  const [filteredMovies, setFilteredMovies] = useState([]);
   // State for sort option
   const [sortOption, setSortOption] = useState("");
   // State for sorted movies
   const [sortedMovies, setSortedMovies] = useState([]);
   // State for all present release years
   const [releaseYears, setReleaseYears] = useState([]);
-  // State for release year filter
-  const [releaseYearFilter, setReleaseYearFilter] = useState(0);
-  // State for filtered movies by release year
-  const [filteredMoviesByReleaseYear, setFilteredMoviesByReleaseYear] =
-    useState([]);
 
   // Function to extract only essential data from fetched result
   const extractMoviesData = () => {
@@ -61,29 +60,48 @@ const App = () => {
     setExtractedMovies(extractedMoviesData);
   };
 
+  // Function to filter by release year
+  const filterMovies = () => {
+    let filteredResult = [];
+
+    if (filterOptions[0] === 0) {
+      filteredResult = [...extractedMovies].filter(
+        (movie) => movie.rating >= filterOptions[1]
+      );
+    } else {
+      filteredResult = [...extractedMovies].filter(
+        (movie) =>
+          movie.releaseYear === filterOptions[0] &&
+          movie.rating >= filterOptions[1]
+      );
+    }
+
+    setFilteredMovies(filteredResult);
+  };
+
   // Function to sort movies
   const sortMovies = () => {
     let sortedMoviesArray = [];
 
     // Sort based on sort option
     if (sortOption === "year.asc") {
-      sortedMoviesArray = [...extractedMovies].sort(
+      sortedMoviesArray = [...filteredMovies].sort(
         (a, b) => a.releaseYear - b.releaseYear
       );
     } else if (sortOption === "year.desc") {
-      sortedMoviesArray = [...extractedMovies].sort(
+      sortedMoviesArray = [...filteredMovies].sort(
         (a, b) => b.releaseYear - a.releaseYear
       );
     } else if (sortOption === "rating.asc") {
-      sortedMoviesArray = [...extractedMovies].sort(
+      sortedMoviesArray = [...filteredMovies].sort(
         (a, b) => a.rating - b.rating
       );
     } else if (sortOption === "rating.desc") {
-      sortedMoviesArray = [...extractedMovies].sort(
+      sortedMoviesArray = [...filteredMovies].sort(
         (a, b) => b.rating - a.rating
       );
     } else {
-      sortedMoviesArray = extractedMovies;
+      sortedMoviesArray = filteredMovies;
     }
 
     setSortedMovies(sortedMoviesArray);
@@ -96,21 +114,6 @@ const App = () => {
         ...new Set([...prevState, movie.releaseYear].sort()),
       ])
     );
-  };
-
-  // Function to filter by release year
-  const filterByReleaseYear = () => {
-    let filteredResult = [];
-
-    if (releaseYearFilter === 0) {
-      filteredResult = sortedMovies;
-    } else {
-      filteredResult = [...sortedMovies].filter(
-        (movie) => movie.releaseYear === releaseYearFilter
-      );
-    }
-
-    setFilteredMoviesByReleaseYear(filteredResult);
   };
 
   // Execute when App mounts
@@ -127,33 +130,29 @@ const App = () => {
     extractMoviesData();
   }, [movies]);
 
+  useEffect(() => {
+    filterMovies();
+  }, [extractedMovies, filterOptions]);
+
   // Call sort function when movies coming initially and everytime sort option changes
   useEffect(() => {
     sortMovies();
-  }, [extractedMovies, sortOption]);
+  }, [filteredMovies, sortOption]);
 
   // Call get release years function when extracted movies changes
   useEffect(() => {
     getReleaseYears();
   }, [extractedMovies]);
 
-  useEffect(() => {
-    console.log(releaseYears);
-  }, [releaseYears]);
-
-  useEffect(() => {
-    filterByReleaseYear();
-  }, [sortedMovies, releaseYearFilter]);
-
   return (
     <ThemeProvider theme={theme}>
       <HeaderBar
         setSortOption={setSortOption}
         releaseYears={releaseYears}
-        setReleaseYearFilter={setReleaseYearFilter}
+        setFilterOptions={setFilterOptions}
       />
       <Container>
-        <MoviesList movies={filteredMoviesByReleaseYear} />
+        <MoviesList movies={sortedMovies} />
       </Container>
     </ThemeProvider>
   );

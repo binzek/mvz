@@ -12,15 +12,19 @@ import {
 import MovieIcon from "@mui/icons-material/Movie";
 import "@fontsource-variable/playfair-display";
 
-const HeaderBar = ({ setSortOption, releaseYears, setReleaseYearFilter }) => {
+const HeaderBar = ({ setSortOption, releaseYears, setFilterOptions }) => {
   // Function to handle sort selection
   const handleSortSelection = (event) => {
     setSortOption(event.target.value);
   };
 
   // Function to handle release year filter
-  const handleReleaseYearFilter = (event) => {
-    setReleaseYearFilter(event.target.value);
+  const handleYearFilterSelection = (event) => {
+    setFilterOptions((prevState) => [event.target.value, prevState[1]]);
+  };
+  // Function to handle rating filter
+  const handleRatingFilterSelection = (event) => {
+    setFilterOptions((prevState) => [prevState[0], event.target.value]);
   };
 
   return (
@@ -76,7 +80,7 @@ const HeaderBar = ({ setSortOption, releaseYears, setReleaseYearFilter }) => {
                     fontSize: 14,
                     color: "#f3f3f3",
                   }}
-                  onChange={handleReleaseYearFilter}
+                  onChange={handleYearFilterSelection}
                 >
                   <MenuItem value={0}>Any</MenuItem>
                   {releaseYears.map((year) => (
@@ -88,9 +92,17 @@ const HeaderBar = ({ setSortOption, releaseYears, setReleaseYearFilter }) => {
                 <InputLabel sx={{ color: "#f3f3f3", fontSize: 14 }}>
                   Rating
                 </InputLabel>
-                <Select label="Rating" sx={{ fontSize: 14, color: "#f3f3f3" }}>
-                  <MenuItem value="">Any</MenuItem>
-                  <MenuItem value={0}>Above 2</MenuItem>
+                <Select
+                  label="Rating"
+                  sx={{ fontSize: 14, color: "#f3f3f3" }}
+                  onChange={handleRatingFilterSelection}
+                >
+                  <MenuItem value={0}>Any</MenuItem>
+                  {Array.from(Array(9).keys()).map((num) => (
+                    <MenuItem value={num + 1}>
+                      {num + 1} &#9733; & above
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
