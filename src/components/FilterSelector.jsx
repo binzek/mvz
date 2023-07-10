@@ -37,7 +37,9 @@ const FilterSelector = ({
           >
             <MenuItem value={0}>Any</MenuItem>
             {presentReleaseYears.map((year) => (
-              <MenuItem value={year}>{year}</MenuItem>
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -52,7 +54,9 @@ const FilterSelector = ({
           >
             <MenuItem value={0}>Any</MenuItem>
             {Array.from(Array(9).keys()).map((num) => (
-              <MenuItem value={num + 1}>{num + 1} &#9733; & above</MenuItem>
+              <MenuItem key={num + 1} value={num + 1}>
+                {num + 1} &#9733; & above
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
