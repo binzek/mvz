@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 
 // Local imports
-import { fetchMovies } from "./utils";
+import { fetchMovies } from "./api";
 import MoviesList from "./components/MoviesList";
 import HeaderBar from "./components/HeaderBar";
 
