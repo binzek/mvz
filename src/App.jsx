@@ -7,10 +7,10 @@ import { fetchMovies } from "./api";
 import MoviesList from "./components/MoviesList";
 import HeaderBar from "./components/HeaderBar";
 import {
-  extractMoviesData,
+  getMovies,
+  getPresentReleaseYears,
   filterMovies,
   sortMovies,
-  getReleaseYears,
 } from "./utils";
 
 // Global theme
@@ -21,55 +21,47 @@ const theme = createTheme({
 });
 
 const App = () => {
-  // State for all movies
+  const [fetchedMovies, setFetchedMovies] = useState([]);
   const [movies, setMovies] = useState([]);
-  // State for extracted movies
-  const [extractedMovies, setExtractedMovies] = useState([]);
-  // State for release year filter
   const [filterOptions, setFilterOptions] = useState([0, 0]);
-  // State for filtered movies
   const [filteredMovies, setFilteredMovies] = useState([]);
-  // State for sort option
   const [sortOption, setSortOption] = useState("");
-  // State for sorted movies
   const [sortedMovies, setSortedMovies] = useState([]);
-  // State for all present release years
-  const [releaseYears, setReleaseYears] = useState([]);
+  const [presentReleaseYears, setPresentReleaseYears] = useState([]);
 
-  // Execute when App mounts
+  // Fetch movies from API when app mounts
   useEffect(() => {
-    // Get movies from API and temporarily logging it
     fetchMovies().then((res) => {
-      console.log(res);
-      setMovies([...movies, ...res.data.results]);
+      setFetchedMovies([...res.data.results]);
     });
   }, []);
 
-  // Call extract function when movies array get populated
+  // Get necessary movie details only after fetching movies
   useEffect(() => {
-    setExtractedMovies(extractMoviesData(movies));
+    setMovies(getMovies(fetchedMovies));
+  }, [fetchedMovies]);
+
+  // Get all present release years after getting movies
+  useEffect(() => {
+    setPresentReleaseYears(getPresentReleaseYears(movies));
   }, [movies]);
 
+  // Filter movies after getting movies, also when filterOption changes
   useEffect(() => {
-    setFilteredMovies(filterMovies(filterOptions, extractedMovies));
-  }, [extractedMovies, filterOptions]);
+    setFilteredMovies(filterMovies(movies, filterOptions));
+  }, [movies, filterOptions]);
 
-  // Call sort function when movies coming initially and everytime sort option changes
+  // Sort movies after filtering movies, also when sortOption changes
   useEffect(() => {
-    setSortedMovies(sortMovies(sortOption, filteredMovies));
+    setSortedMovies(sortMovies(filteredMovies, sortOption));
   }, [filteredMovies, sortOption]);
-
-  // Call get release years function when extracted movies changes
-  useEffect(() => {
-    setReleaseYears(getReleaseYears(extractedMovies));
-  }, [extractedMovies]);
 
   return (
     <ThemeProvider theme={theme}>
       <HeaderBar
-        setSortOption={setSortOption}
-        releaseYears={releaseYears}
+        releaseYears={presentReleaseYears}
         setFilterOptions={setFilterOptions}
+        setSortOption={setSortOption}
       />
       <Container>
         <MoviesList movies={sortedMovies} />

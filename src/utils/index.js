@@ -1,86 +1,83 @@
-// Function to get only release year from release date
-export const getReleaseYear = (date) => {
-  let releaseDate = new Date(date);
-  let releaseYear = releaseDate.getFullYear();
+// Function to get year only from a date
+const getYearOnly = (date) => new Date(date).getFullYear();
 
-  return releaseYear;
-};
+// Function for getting only essential datas from fetched result
+export const getMovies = (fetchedMovies) => {
+  let moviesList = [];
 
-// Function to extract only essential data from fetched result
-export const extractMoviesData = (movies) => {
-  let extractedMoviesData = [];
-
-  // Map through all movies and extract essential datas to new object
-  movies.map((movie) => {
-    extractedMoviesData = [
-      ...extractedMoviesData,
+  // Map through all fetched movies and get essential datas to moviesList
+  fetchedMovies.map((fetchedMovie) => {
+    moviesList = [
+      ...moviesList,
       {
-        id: movie.id,
-        title: movie.title,
-        description: movie.overview,
-        imageUrl: movie.backdrop_path,
-        rating: movie.vote_average,
-        releaseYear: getReleaseYear(movie.release_date),
+        id: fetchedMovie.id,
+        title: fetchedMovie.title,
+        description: fetchedMovie.overview,
+        imageUrl: fetchedMovie.backdrop_path,
+        rating: fetchedMovie.vote_average,
+        releaseYear: getYearOnly(fetchedMovie.release_date),
       },
     ];
   });
 
-  return extractedMoviesData;
+  return moviesList;
+};
+
+// Function for getting all present release years
+export const getPresentReleaseYears = (movies) => {
+  let presentReleaseYearsList = [];
+
+  // Map through all movies and add non-duplicate years to list
+  movies.map(
+    (movie) =>
+      (presentReleaseYearsList = [
+        ...new Set([...presentReleaseYearsList, movie.releaseYear].sort()),
+      ])
+  );
+
+  return presentReleaseYearsList;
 };
 
 // Function to filter movies
-export const filterMovies = (filterOptions, extractedMovies) => {
-  let filteredResult = [];
+export const filterMovies = (movies, filterOptions) => {
+  let filteredMoviesList = [];
 
+  // If no year given, check only rating. Else check both year and rating
   if (filterOptions[0] === 0) {
-    filteredResult = [...extractedMovies].filter(
+    filteredMoviesList = [...movies].filter(
       (movie) => movie.rating >= filterOptions[1]
     );
   } else {
-    filteredResult = [...extractedMovies].filter(
+    filteredMoviesList = [...movies].filter(
       (movie) =>
         movie.releaseYear === filterOptions[0] &&
         movie.rating >= filterOptions[1]
     );
   }
 
-  return filteredResult;
+  return filteredMoviesList;
 };
 
-// Function to sort movies
-export const sortMovies = (sortOption, filteredMovies) => {
-  let sortedMoviesArray = [];
+// Function to sort filtered movies
+export const sortMovies = (filteredMovies, sortOption) => {
+  let sortedMoviesList = [];
 
-  // Sort based on sort option
+  // Sort filtered movies as give sort option. If no sort option, pass all filtered movies
   if (sortOption === "year.asc") {
-    sortedMoviesArray = [...filteredMovies].sort(
+    sortedMoviesList = [...filteredMovies].sort(
       (a, b) => a.releaseYear - b.releaseYear
     );
   } else if (sortOption === "year.desc") {
-    sortedMoviesArray = [...filteredMovies].sort(
+    sortedMoviesList = [...filteredMovies].sort(
       (a, b) => b.releaseYear - a.releaseYear
     );
   } else if (sortOption === "rating.asc") {
-    sortedMoviesArray = [...filteredMovies].sort((a, b) => a.rating - b.rating);
+    sortedMoviesList = [...filteredMovies].sort((a, b) => a.rating - b.rating);
   } else if (sortOption === "rating.desc") {
-    sortedMoviesArray = [...filteredMovies].sort((a, b) => b.rating - a.rating);
+    sortedMoviesList = [...filteredMovies].sort((a, b) => b.rating - a.rating);
   } else {
-    sortedMoviesArray = filteredMovies;
+    sortedMoviesList = filteredMovies;
   }
 
-  return sortedMoviesArray;
-};
-
-// Function to get all release years
-export const getReleaseYears = (extractedMovies) => {
-  let releaseYearsArray = [];
-
-  extractedMovies.map(
-    (movie) =>
-      (releaseYearsArray = [
-        ...new Set([...releaseYearsArray, movie.releaseYear].sort()),
-      ])
-  );
-
-  return releaseYearsArray;
+  return sortedMoviesList;
 };
