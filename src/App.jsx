@@ -5,6 +5,7 @@ import { Container, createTheme, ThemeProvider } from "@mui/material";
 // Local imports
 import { fetchMovies } from "./utils";
 import MoviesList from "./components/MoviesList";
+import HeaderBar from "./components/HeaderBar";
 
 // Global theme
 const theme = createTheme({
@@ -28,6 +29,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <HeaderBar />
       <Container>
         <MoviesList movies={movies} />
       </Container>

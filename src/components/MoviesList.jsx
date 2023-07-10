@@ -14,7 +14,7 @@ const MoviesList = ({ movies }) => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} py={3}>
       {movies.map((movie) => (
         <Grid key={movie.id} item xs={12} sm={6} md={4} xl={3}>
           <MovieCard
