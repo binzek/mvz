@@ -29,7 +29,10 @@ const HeaderBar = ({
   return (
     <Box>
       <NavBar />
-      <AppBar position="static" sx={{ bgcolor: "#29435c", pb: 2, pt: 1 }}>
+      <AppBar
+        position="static"
+        sx={{ bgcolor: "#29435c", py: 2, boxShadow: "none" }}
+      >
         <Container
           sx={{
             display: "flex",

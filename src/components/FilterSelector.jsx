@@ -21,10 +21,9 @@ const FilterSelector = ({
       </Typography>
       <Box display="flex" justifyContent="space-between" gap={1}>
         <SelectorInput
-          label="Release Year"
           onChange={handleYearFilterSelection}
           defaultValue={0}
-          defaultOption="Any"
+          defaultOption="All Year"
           optionsList={presentReleaseYears.map((year) => ({
             key: year,
             value: year,
@@ -32,10 +31,9 @@ const FilterSelector = ({
           }))}
         />
         <SelectorInput
-          label="Rating"
           onChange={handleRatingFilterSelection}
           defaultValue={0}
-          defaultOption="Any"
+          defaultOption="All Rating"
           optionsList={Array.from(Array(9).keys()).map((num) => ({
             key: num + 1,
             value: num + 1,
