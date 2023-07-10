@@ -47,7 +47,7 @@ MVZ is a movie listing application with the help of TMDB API.
    $ npm run dev
    ```
 
-1. Visit https://localhost:3000/ in your browser
+1. Visit http://localhost:3000/ in your browser
 
 ## License
 
