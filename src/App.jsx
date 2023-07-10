@@ -1,10 +1,17 @@
 // Library imports
 import { useEffect, useState } from "react";
-import { Container } from "@mui/material";
+import { Container, createTheme, ThemeProvider } from "@mui/material";
 
 // Local imports
 import { fetchMovies } from "./utils";
 import MoviesList from "./components/MoviesList";
+
+// Global theme
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Open Sans Variable", "sans-serif"].join(","),
+  },
+});
 
 const App = () => {
   // State for all movies
@@ -20,9 +27,11 @@ const App = () => {
   }, []);
 
   return (
-    <Container>
-      <MoviesList movies={movies} />
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container>
+        <MoviesList movies={movies} />
+      </Container>
+    </ThemeProvider>
   );
 };
 
