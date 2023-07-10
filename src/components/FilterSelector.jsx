@@ -1,11 +1,8 @@
-import {
-  Box,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+// Library imports
+import { Box, Typography } from "@mui/material";
+
+// Local imports
+import SelectorInput from "./SelectorInput";
 
 const FilterSelector = ({
   presentReleaseYears,
@@ -23,45 +20,28 @@ const FilterSelector = ({
         Filter By:
       </Typography>
       <Box display="flex" justifyContent="space-between" gap={1}>
-        <FormControl sx={{ flex: 1, minWidth: { sm: 130 } }} size="small">
-          <InputLabel sx={{ color: "#f3f3f3", fontSize: 14 }}>
-            Release Year
-          </InputLabel>
-          <Select
-            label="Release Year"
-            sx={{
-              fontSize: 14,
-              color: "#f3f3f3",
-            }}
-            onChange={handleYearFilterSelection}
-            defaultValue={0}
-          >
-            <MenuItem value={0}>Any</MenuItem>
-            {presentReleaseYears.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ flex: 1, minWidth: { sm: 130 } }} size="small">
-          <InputLabel sx={{ color: "#f3f3f3", fontSize: 14 }}>
-            Rating
-          </InputLabel>
-          <Select
-            label="Rating"
-            sx={{ fontSize: 14, color: "#f3f3f3" }}
-            onChange={handleRatingFilterSelection}
-            defaultValue={0}
-          >
-            <MenuItem value={0}>Any</MenuItem>
-            {Array.from(Array(9).keys()).map((num) => (
-              <MenuItem key={num + 1} value={num + 1}>
-                {num + 1} &#9733; & above
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <SelectorInput
+          label="Release Year"
+          onChange={handleYearFilterSelection}
+          defaultValue={0}
+          defaultOption="Any"
+          optionsList={presentReleaseYears.map((year) => ({
+            key: year,
+            value: year,
+            content: year,
+          }))}
+        />
+        <SelectorInput
+          label="Rating"
+          onChange={handleRatingFilterSelection}
+          defaultValue={0}
+          defaultOption="Any"
+          optionsList={Array.from(Array(9).keys()).map((num) => ({
+            key: num + 1,
+            value: num + 1,
+            content: `${num + 1} ★ & above`,
+          }))}
+        />
       </Box>
     </Box>
   );

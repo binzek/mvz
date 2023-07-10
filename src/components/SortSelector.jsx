@@ -1,4 +1,8 @@
-import { Box, Typography, FormControl, Select, MenuItem } from "@mui/material";
+// Library imports
+import { Box, Typography } from "@mui/material";
+
+// Local imports
+import SelectorInput from "./SelectorInput";
 
 const SortSelector = ({ handleSortSelection }) => {
   return (
@@ -11,20 +15,18 @@ const SortSelector = ({ handleSortSelection }) => {
       <Typography variant="body2" fontWeight={500} color="#d1d4c9">
         Sort By:
       </Typography>
-      <FormControl size="small" sx={{ minWidth: { sm: 130 } }}>
-        <Select
-          displayEmpty
-          sx={{ fontSize: 14, color: "#f3f3f3" }}
-          onChange={handleSortSelection}
-          defaultValue=""
-        >
-          <MenuItem value="">Popularity</MenuItem>
-          <MenuItem value="year.asc">Year ▴</MenuItem>
-          <MenuItem value="year.desc">Year ▾</MenuItem>
-          <MenuItem value="rating.asc">Rating ▴</MenuItem>
-          <MenuItem value="rating.desc">Rating ▾</MenuItem>
-        </Select>
-      </FormControl>
+      <SelectorInput
+        displayEmpty={true}
+        onChange={handleSortSelection}
+        defaultValue=""
+        defaultOption="Popularity"
+        optionsList={[
+          { key: "year.asc", value: "year.asc", content: "Year ▴" },
+          { key: "year.desc", value: "year.desc", content: "Year ▾" },
+          { key: "rating.asc", value: "rating.asc", content: "Rating ▴" },
+          { key: "rating.desc", value: "rating.desc", content: "Rating ▾" },
+        ]}
+      />
     </Box>
   );
 };
