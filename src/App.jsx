@@ -73,13 +73,14 @@ const App = () => {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <MoviesList movies={sortedMovies} />
-        <Typography variant="overline" color="#d1d4c9" fontWeight={600}>
+        <Typography variant="overline" color="#d1d4c9">
           &copy; 2023 - Developed By{" "}
           <Link
             href="https://wajid.me/"
             target="_blank"
             rel="noopener"
             color="#d1d4c9"
+            fontWeight={600}
           >
             Abdul Wajid
           </Link>
