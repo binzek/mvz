@@ -59,7 +59,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <HeaderBar
-        releaseYears={presentReleaseYears}
+        presentReleaseYears={presentReleaseYears}
         setFilterOptions={setFilterOptions}
         setSortOption={setSortOption}
       />

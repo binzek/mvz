@@ -1,19 +1,16 @@
 // Library imports
-import {
-  AppBar,
-  Box,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Container } from "@mui/material";
 
 // Local imports
 import NavBar from "./NavBar";
+import FilterSelector from "./FilterSelector";
+import SortSelector from "./SortSelector";
 
-const HeaderBar = ({ releaseYears, setFilterOptions, setSortOption }) => {
+const HeaderBar = ({
+  presentReleaseYears,
+  setFilterOptions,
+  setSortOption,
+}) => {
   // Listen for year filter selection and pass as first element of filterOptions
   const handleYearFilterSelection = (event) => {
     setFilterOptions((prevState) => [event.target.value, prevState[1]]);
@@ -41,76 +38,12 @@ const HeaderBar = ({ releaseYears, setFilterOptions, setSortOption }) => {
             gap: 2,
           }}
         >
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", md: "row" }}
-            alignItems={{ md: "center" }}
-            gap={1}
-          >
-            <Typography variant="body2" fontWeight={500} color="#d1d4c9">
-              Filter By:
-            </Typography>
-            <Box display="flex" justifyContent="space-between" gap={1}>
-              <FormControl sx={{ flex: 1, minWidth: { sm: 130 } }} size="small">
-                <InputLabel sx={{ color: "#f3f3f3", fontSize: 14 }}>
-                  Release Year
-                </InputLabel>
-                <Select
-                  label="Release Year"
-                  sx={{
-                    fontSize: 14,
-                    color: "#f3f3f3",
-                  }}
-                  onChange={handleYearFilterSelection}
-                >
-                  <MenuItem value={0}>Any</MenuItem>
-                  {releaseYears.map((year) => (
-                    <MenuItem value={year}>{year}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl sx={{ flex: 1, minWidth: { sm: 130 } }} size="small">
-                <InputLabel sx={{ color: "#f3f3f3", fontSize: 14 }}>
-                  Rating
-                </InputLabel>
-                <Select
-                  label="Rating"
-                  sx={{ fontSize: 14, color: "#f3f3f3" }}
-                  onChange={handleRatingFilterSelection}
-                >
-                  <MenuItem value={0}>Any</MenuItem>
-                  {Array.from(Array(9).keys()).map((num) => (
-                    <MenuItem value={num + 1}>
-                      {num + 1} &#9733; & above
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Box>
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", md: "row" }}
-            alignItems={{ md: "center" }}
-            gap={1}
-          >
-            <Typography variant="body2" fontWeight={500} color="#d1d4c9">
-              Sort By:
-            </Typography>
-            <FormControl size="small" sx={{ minWidth: { sm: 130 } }}>
-              <Select
-                displayEmpty
-                sx={{ fontSize: 14, color: "#f3f3f3" }}
-                onChange={handleSortSelection}
-              >
-                <MenuItem>Default</MenuItem>
-                <MenuItem value="year.asc">Year ▴</MenuItem>
-                <MenuItem value="year.desc">Year ▾</MenuItem>
-                <MenuItem value="rating.asc">Rating ▴</MenuItem>
-                <MenuItem value="rating.desc">Rating ▾</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+          <FilterSelector
+            presentReleaseYears={presentReleaseYears}
+            handleYearFilterSelection={handleYearFilterSelection}
+            handleRatingFilterSelection={handleRatingFilterSelection}
+          />
+          <SortSelector handleSortSelection={handleSortSelection} />
         </Container>
       </AppBar>
     </Box>
