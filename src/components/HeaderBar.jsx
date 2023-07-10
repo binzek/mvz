@@ -12,10 +12,15 @@ import {
 import MovieIcon from "@mui/icons-material/Movie";
 import "@fontsource-variable/playfair-display";
 
-const HeaderBar = ({ setSortOption }) => {
+const HeaderBar = ({ setSortOption, releaseYears, setReleaseYearFilter }) => {
   // Function to handle sort selection
   const handleSortSelection = (event) => {
     setSortOption(event.target.value);
+  };
+
+  // Function to handle release year filter
+  const handleReleaseYearFilter = (event) => {
+    setReleaseYearFilter(event.target.value);
   };
 
   return (
@@ -71,9 +76,12 @@ const HeaderBar = ({ setSortOption }) => {
                     fontSize: 14,
                     color: "#f3f3f3",
                   }}
+                  onChange={handleReleaseYearFilter}
                 >
-                  <MenuItem value="">Any</MenuItem>
-                  <MenuItem value={0}>2021</MenuItem>
+                  <MenuItem value={0}>Any</MenuItem>
+                  {releaseYears.map((year) => (
+                    <MenuItem value={year}>{year}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl sx={{ flex: 1, minWidth: { sm: 130 } }} size="small">

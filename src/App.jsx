@@ -23,6 +23,13 @@ const App = () => {
   const [sortOption, setSortOption] = useState("");
   // State for sorted movies
   const [sortedMovies, setSortedMovies] = useState([]);
+  // State for all present release years
+  const [releaseYears, setReleaseYears] = useState([]);
+  // State for release year filter
+  const [releaseYearFilter, setReleaseYearFilter] = useState(0);
+  // State for filtered movies by release year
+  const [filteredMoviesByReleaseYear, setFilteredMoviesByReleaseYear] =
+    useState([]);
 
   // Function to extract only essential data from fetched result
   const extractMoviesData = () => {
@@ -82,6 +89,30 @@ const App = () => {
     setSortedMovies(sortedMoviesArray);
   };
 
+  // Function to get all release years
+  const getReleaseYears = () => {
+    extractedMovies.map((movie) =>
+      setReleaseYears((prevState) => [
+        ...new Set([...prevState, movie.releaseYear].sort()),
+      ])
+    );
+  };
+
+  // Function to filter by release year
+  const filterByReleaseYear = () => {
+    let filteredResult = [];
+
+    if (releaseYearFilter === 0) {
+      filteredResult = sortedMovies;
+    } else {
+      filteredResult = [...sortedMovies].filter(
+        (movie) => movie.releaseYear === releaseYearFilter
+      );
+    }
+
+    setFilteredMoviesByReleaseYear(filteredResult);
+  };
+
   // Execute when App mounts
   useEffect(() => {
     // Get movies from API and temporarily logging it
@@ -101,11 +132,28 @@ const App = () => {
     sortMovies();
   }, [extractedMovies, sortOption]);
 
+  // Call get release years function when extracted movies changes
+  useEffect(() => {
+    getReleaseYears();
+  }, [extractedMovies]);
+
+  useEffect(() => {
+    console.log(releaseYears);
+  }, [releaseYears]);
+
+  useEffect(() => {
+    filterByReleaseYear();
+  }, [sortedMovies, releaseYearFilter]);
+
   return (
     <ThemeProvider theme={theme}>
-      <HeaderBar setSortOption={setSortOption} />
+      <HeaderBar
+        setSortOption={setSortOption}
+        releaseYears={releaseYears}
+        setReleaseYearFilter={setReleaseYearFilter}
+      />
       <Container>
-        <MoviesList movies={sortedMovies} />
+        <MoviesList movies={filteredMoviesByReleaseYear} />
       </Container>
     </ThemeProvider>
   );
