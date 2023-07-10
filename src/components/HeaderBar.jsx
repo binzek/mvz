@@ -9,48 +9,29 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import MovieIcon from "@mui/icons-material/Movie";
-import "@fontsource-variable/playfair-display";
 
-const HeaderBar = ({ setSortOption, releaseYears, setFilterOptions }) => {
-  // Function to handle sort selection
-  const handleSortSelection = (event) => {
-    setSortOption(event.target.value);
-  };
+// Local imports
+import NavBar from "./NavBar";
 
-  // Function to handle release year filter
+const HeaderBar = ({ releaseYears, setFilterOptions, setSortOption }) => {
+  // Listen for year filter selection and pass as first element of filterOptions
   const handleYearFilterSelection = (event) => {
     setFilterOptions((prevState) => [event.target.value, prevState[1]]);
   };
-  // Function to handle rating filter
+
+  // Listen for year filter selection and pass as second element of filterOptions
   const handleRatingFilterSelection = (event) => {
     setFilterOptions((prevState) => [prevState[0], event.target.value]);
   };
 
+  // Listen for sort selection and pass as sortOption
+  const handleSortSelection = (event) => {
+    setSortOption(event.target.value);
+  };
+
   return (
     <Box>
-      <AppBar position="static">
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          gap={2}
-          bgcolor="#29435c"
-          py={1}
-          color="#f3f3f3"
-          sx={{ userSelect: "none" }}
-        >
-          <MovieIcon fontSize="large" />
-          <Typography
-            variant="h2"
-            fontSize={28}
-            fontFamily="'Playfair Display Variable', sans-serif"
-            fontWeight={800}
-          >
-            MVZ
-          </Typography>
-        </Box>
-      </AppBar>
+      <NavBar />
       <AppBar position="static" sx={{ bgcolor: "#29435c", pb: 2, pt: 1 }}>
         <Container
           sx={{
