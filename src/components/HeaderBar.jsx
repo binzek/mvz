@@ -12,7 +12,12 @@ import {
 import MovieIcon from "@mui/icons-material/Movie";
 import "@fontsource-variable/playfair-display";
 
-const HeaderBar = () => {
+const HeaderBar = ({ setSortOption }) => {
+  // Function to handle sort selection
+  const handleSortSelection = (event) => {
+    setSortOption(event.target.value);
+  };
+
   return (
     <Box>
       <AppBar position="static">
@@ -92,9 +97,16 @@ const HeaderBar = () => {
               Sort By:
             </Typography>
             <FormControl size="small" sx={{ minWidth: { sm: 130 } }}>
-              <Select displayEmpty sx={{ fontSize: 14, color: "#f3f3f3" }}>
+              <Select
+                displayEmpty
+                sx={{ fontSize: 14, color: "#f3f3f3" }}
+                onChange={handleSortSelection}
+              >
                 <MenuItem>Default</MenuItem>
-                <MenuItem value={0}>Ascending</MenuItem>
+                <MenuItem value="year.asc">Year ▴</MenuItem>
+                <MenuItem value="year.desc">Year ▾</MenuItem>
+                <MenuItem value="rating.asc">Rating ▴</MenuItem>
+                <MenuItem value="rating.desc">Rating ▾</MenuItem>
               </Select>
             </FormControl>
           </Box>

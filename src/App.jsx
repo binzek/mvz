@@ -19,6 +19,10 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   // State for extracted movies
   const [extractedMovies, setExtractedMovies] = useState([]);
+  // State for sort option
+  const [sortOption, setSortOption] = useState("");
+  // State for sorted movies
+  const [sortedMovies, setSortedMovies] = useState([]);
 
   // Function to extract only essential data from fetched result
   const extractMoviesData = () => {
@@ -50,6 +54,34 @@ const App = () => {
     setExtractedMovies(extractedMoviesData);
   };
 
+  // Function to sort movies
+  const sortMovies = () => {
+    let sortedMoviesArray = [];
+
+    // Sort based on sort option
+    if (sortOption === "year.asc") {
+      sortedMoviesArray = [...extractedMovies].sort(
+        (a, b) => a.releaseYear - b.releaseYear
+      );
+    } else if (sortOption === "year.desc") {
+      sortedMoviesArray = [...extractedMovies].sort(
+        (a, b) => b.releaseYear - a.releaseYear
+      );
+    } else if (sortOption === "rating.asc") {
+      sortedMoviesArray = [...extractedMovies].sort(
+        (a, b) => a.rating - b.rating
+      );
+    } else if (sortOption === "rating.desc") {
+      sortedMoviesArray = [...extractedMovies].sort(
+        (a, b) => b.rating - a.rating
+      );
+    } else {
+      sortedMoviesArray = extractedMovies;
+    }
+
+    setSortedMovies(sortedMoviesArray);
+  };
+
   // Execute when App mounts
   useEffect(() => {
     // Get movies from API and temporarily logging it
@@ -64,11 +96,16 @@ const App = () => {
     extractMoviesData();
   }, [movies]);
 
+  // Call sort function when movies coming initially and everytime sort option changes
+  useEffect(() => {
+    sortMovies();
+  }, [extractedMovies, sortOption]);
+
   return (
     <ThemeProvider theme={theme}>
-      <HeaderBar />
+      <HeaderBar setSortOption={setSortOption} />
       <Container>
-        <MoviesList movies={extractedMovies} />
+        <MoviesList movies={sortedMovies} />
       </Container>
     </ThemeProvider>
   );
