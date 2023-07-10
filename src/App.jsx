@@ -1,6 +1,12 @@
 // Library imports
 import { useEffect, useState } from "react";
-import { Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Container,
+  createTheme,
+  ThemeProvider,
+  Typography,
+  Link,
+} from "@mui/material";
 
 // Local imports
 import { fetchMovies } from "./api";
@@ -63,8 +69,21 @@ const App = () => {
         setFilterOptions={setFilterOptions}
         setSortOption={setSortOption}
       />
-      <Container>
+      <Container
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
         <MoviesList movies={sortedMovies} />
+        <Typography variant="overline" color="#d1d4c9" fontWeight={600}>
+          &copy; 2023 - Developed By{" "}
+          <Link
+            href="https://wajid.me/"
+            target="_blank"
+            rel="noopener"
+            color="#d1d4c9"
+          >
+            Abdul Wajid
+          </Link>
+        </Typography>
       </Container>
     </ThemeProvider>
   );
