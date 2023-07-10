@@ -34,6 +34,7 @@ const FilterSelector = ({
               color: "#f3f3f3",
             }}
             onChange={handleYearFilterSelection}
+            defaultValue={0}
           >
             <MenuItem value={0}>Any</MenuItem>
             {presentReleaseYears.map((year) => (
@@ -51,6 +52,7 @@ const FilterSelector = ({
             label="Rating"
             sx={{ fontSize: 14, color: "#f3f3f3" }}
             onChange={handleRatingFilterSelection}
+            defaultValue={0}
           >
             <MenuItem value={0}>Any</MenuItem>
             {Array.from(Array(9).keys()).map((num) => (

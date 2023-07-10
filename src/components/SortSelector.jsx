@@ -16,8 +16,9 @@ const SortSelector = ({ handleSortSelection }) => {
           displayEmpty
           sx={{ fontSize: 14, color: "#f3f3f3" }}
           onChange={handleSortSelection}
+          defaultValue=""
         >
-          <MenuItem>Popularity</MenuItem>
+          <MenuItem value="">Popularity</MenuItem>
           <MenuItem value="year.asc">Year ▴</MenuItem>
           <MenuItem value="year.desc">Year ▾</MenuItem>
           <MenuItem value="rating.asc">Rating ▴</MenuItem>
