@@ -2,7 +2,7 @@
 
 MVZ is a movie listing application with the help of TMDB API.
 
-**Live App: https://mvz.wajid.me/**
+**Live App: https://mvz.live.binzek.com/**
 
 ## Features
 
@@ -51,4 +51,4 @@ MVZ is a movie listing application with the help of TMDB API.
 
 ## License
 
-Distributed under the [MIT License](https://opensource.org/license/mit/). See [`LICENSE`](https://github.com/wajid-nv/mvz/blob/main/LICENSE) for more information.
+Distributed under the [MIT License](https://opensource.org/license/mit/). See [`LICENSE`](/LICENSE) for more information.
