@@ -74,9 +74,9 @@ const App = () => {
       >
         <MoviesList movies={sortedMovies} />
         <Typography variant="overline" color="#d1d4c9">
-          &copy; 2023 - Developed By{" "}
+          &copy; 2025 - Developed By{" "}
           <Link
-            href="https://wajid.me/"
+            href="https://www.binzek.com/"
             target="_blank"
             rel="noopener"
             color="#d1d4c9"
